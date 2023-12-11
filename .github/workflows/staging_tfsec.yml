@@ -9,11 +9,11 @@ on:
   push:
     branches: [ "dev"]
     paths: 
-    - dev/**
+    - dev/*
   pull_request:
     branches: [ "staging" ]
     paths: 
-    - dev/**
+    - dev/*
 
 jobs:
   tfsec_tflint_staging:
