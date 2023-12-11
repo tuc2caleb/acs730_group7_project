@@ -15,7 +15,7 @@ variable "default_tags" {
     "App"   = "Web"
   }
   type        = map(any)
-  description = "Default tags to be appliad to all AWS resources"
+  description = "Default tags to be appliad to all AWS cloud resources"
 }
 
 # Prefix to identify resources
