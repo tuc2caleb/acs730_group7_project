@@ -5,13 +5,13 @@ on:
     branches:
     - dev
     paths:
-    - dev/*
+    - dev/**
 
   pull_request:
     branches:
     - staging
     paths: 
-    - dev/*
+    - dev/**
 
 permissions:
   contents: read
@@ -42,25 +42,25 @@ jobs:
         id: fmt
         run: terraform fmt 
         continue-on-error: true
-        working-directory: ./dev
+        working-directory: ./dev/networks
 
 
       - name: Terraform Init
         id: init
         run: terraform init
-        working-directory: ./dev
+        working-directory: ./dev/networks
 
            
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-        working-directory: ./dev
+        working-directory: ./dev/networks
 
     
       - name: Terraform Plan
         id: plan
         run: terraform plan -input=false -no-color -out tf.plan
-        working-directory: ./dev # Use your environment folder
+        working-directory: ./dev/networks # Use your environment folder
         continue-on-error: true
 
       - name: Get result
@@ -69,7 +69,7 @@ jobs:
       - name: Terraform Show
         id: show
         run: terraform show -no-color tf1.plan 2>&1 > /tmp/plan1.txt
-        working-directory: ./dev # Use your environment folder
+        working-directory: ./dev/networks # Use your environment folder
           
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
@@ -114,5 +114,5 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
         run: terraform apply -input=false tf1.plan
-        working-directory: ./dev # Use your environment folder
+        working-directory: ./dev/networks # Use your environment folder
         shell: bash
