@@ -51,12 +51,9 @@ jobs:
       - name: Init TFLint
         run: tflint --init
 
-
-              working-directory: ./dev/networks
-
       - name: Run TFLint
         run: tflint -f compact
-        working-directory: ./dev/networks
+          #        working-directory: ./dev/networks
 
       - name: Run tfsec
         uses: aquasecurity/tfsec-sarif-action@9a83b5c3524f825c020e356335855741fd02745f
