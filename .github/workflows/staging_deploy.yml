@@ -60,7 +60,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -input=false -no-color -out tf.plan
-        working-directory: networks # Use your environment folder name
+        working-directory: networks # Use your environment folder 
         continue-on-error: true
 
       - name: Get result
