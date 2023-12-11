@@ -44,7 +44,7 @@ jobs:
       #   run: cat terraform_files.txt
 
       - name: Init TFLint
-        run: tflint --init --tfvars-file=terraform_files.txt
+        run: tflint --init
            
       - name: Show version
         run: tflint --version
