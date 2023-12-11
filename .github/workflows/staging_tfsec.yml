@@ -32,17 +32,28 @@ jobs:
         name: Setup TFLint
         with:
            tflint_version: v0.38.1
+
+      - name: Find Terraform files
+        id: find-terraform-files
+        run: |
+          find . -type f -name "*.tf" > terraform_files.txt
+        shell: bash
+
+      - name: Display found Terraform files
+        run: cat terraform_files.txt
+
+      - name: Init TFLint
+        run: tflint --init --tfvars-file=terraform_files.txt
            
       - name: Show version
         run: tflint --version
 
       - name: Init TFLint
         run: tflint --init
-        working-directory: ./dev/networks
 
       - name: Run TFLint
         run: tflint -f compact
-        working-directory: ./dev/networks
+          #        working-directory: ./dev/networks
 
       - name: Run tfsec
         uses: aquasecurity/tfsec-sarif-action@9a83b5c3524f825c020e356335855741fd02745f
