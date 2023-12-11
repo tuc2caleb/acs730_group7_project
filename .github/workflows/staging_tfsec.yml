@@ -1,0 +1,67 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: tfsec
+
+on:
+  push:
+    branches: [ "dev"]
+    # paths: 
+    # - dev/*
+  pull_request:
+    branches: [ "staging" ]
+    # paths: 
+    # - dev/*
+
+jobs:
+  tfsec_tflint_staging:
+    name: Run tfsec sarif report
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+      
+      - uses: terraform-linters/setup-tflint@v2
+        name: Setup TFLint
+        with:
+           tflint_version: v0.38.1
+
+      - name: Find Terraform files and Display files
+        id: find-terraform-files
+        run: |
+          find . -type f -name "*.tf" > terraform_files.txt
+          cat terraform_files.txt
+       # shell: bash
+
+      # - name: Display found Terraform files
+      #   run: cat terraform_files.txt
+
+      - name: Init TFLint
+        run: tflint --init
+           
+      - name: Show version
+        run: tflint --version
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint -f compact
+         
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-sarif-action@9a83b5c3524f825c020e356335855741fd02745f
+        with:
+          sarif_file: tfsec.sarif
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          # Path to SARIF file relative to the root of the repository
+          sarif_file: tfsec.sarif
