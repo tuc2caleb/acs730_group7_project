@@ -3,13 +3,13 @@ name: "Terraform - Staging"
 on:
   push:
     branches:
-    - dev
+    - dev/*
     paths:
     - networks
 
   pull_request:
     branches:
-    - staging
+    - staging/*
     paths: 
     - networks
 
